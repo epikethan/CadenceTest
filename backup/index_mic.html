@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cadence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+    --bg:#FBF6F0;--app:#FFFFFF;--app-2:#FCF8F3;--ink:#2E2430;--ink-soft:#574A54;--muted:#8A7C84;
+    --line:#ECE0D8;--accent:#E8A33D;--accent-deep:#B5781F;--accent-wash:#FBEED6;--plum:#6B3A62;
+    --sage:#5B8C6E;--sage-wash:#E7F0E9;--amber-wash:#FBEED6;--shadow:0 18px 50px -24px rgba(58,38,52,.45);--radius:22px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1B1620;--app:#271F2C;--app-2:#2E2533;--ink:#F3ECEF;--ink-soft:#D5C8CF;--muted:#A798A1;
+      --line:#3C313F;--accent:#F0B255;--accent-deep:#E8A33D;--accent-wash:#3B2E1E;--plum:#C79BBE;
+      --sage:#86BD9A;--sage-wash:#223029;--amber-wash:#3B2E1E;--shadow:0 18px 50px -24px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1B1620;--app:#271F2C;--app-2:#2E2533;--ink:#F3ECEF;--ink-soft:#D5C8CF;--muted:#A798A1;
+    --line:#3C313F;--accent:#F0B255;--accent-deep:#E8A33D;--accent-wash:#3B2E1E;--plum:#C79BBE;
+    --sage:#86BD9A;--sage-wash:#223029;--amber-wash:#3B2E1E;--shadow:0 18px 50px -24px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  html{scroll-padding-top:env(safe-area-inset-top,0px)}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:19px;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;justify-content:center;align-items:stretch;}
+  @media (min-width:600px){body{align-items:center;padding:28px}}
+  .app{position:relative;width:100%;max-width:430px;background:var(--app);min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
+  @media (min-width:600px){.app{min-height:0;height:min(880px,92vh);border-radius:34px;box-shadow:var(--shadow);border:1px solid var(--line);}}
+  .screen{display:none;flex:1;flex-direction:column;min-height:0;padding:26px 24px calc(26px + env(safe-area-inset-bottom,0px));animation:fade .45s ease both;overflow-y:auto;}
+  .screen.active{display:flex}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.screen{animation:none}}
+  .top{display:flex;align-items:center;gap:12px;min-height:34px;margin-bottom:8px;}
+  .back{border:none;background:var(--app-2);color:var(--ink);width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer;display:grid;place-items:center;flex:none;}
+  .back:hover{background:var(--line)}
+  .eyebrow{color:var(--muted);font-weight:600;font-size:.82rem;letter-spacing:.01em}
+  .wordmark{font-family:"Newsreader",serif;font-size:1.25rem;font-weight:600;letter-spacing:.01em;color:var(--plum);display:flex;align-items:center;gap:7px}
+  .wordmark .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  .spacer{flex:1}
+  h1{font-family:"Newsreader",serif;font-weight:500;line-height:1.08;margin:0;letter-spacing:-.01em;}
+  .greet{font-size:2.5rem;margin:14px 0 2px}
+  .greet em{font-style:italic;color:var(--plum)}
+  .sub{color:var(--ink-soft);font-size:1.02rem;margin:0}
+  .small{font-size:.82rem;color:var(--muted)}
+  .daystamp{color:var(--muted);font-weight:600;font-size:.9rem}
+  .streak{margin:26px 0 auto;background:linear-gradient(160deg,var(--accent-wash),var(--app-2));border:1px solid var(--line);border-radius:var(--radius);padding:24px;}
+  .streak .count{font-family:"Newsreader",serif;font-size:3.4rem;line-height:1;color:var(--accent-deep);font-weight:600}
+  .streak .count span{font-size:1.05rem;font-family:"Figtree";color:var(--ink-soft);font-weight:600;margin-left:6px}
+  .streak p{margin:6px 0 18px;color:var(--ink-soft)}
+  .notes{display:flex;gap:10px}
+  .note{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--app);border:1px solid var(--line);color:var(--muted);transition:transform .3s ease}
+  .note.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  @keyframes pop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+  .note.pop{animation:pop .5s ease both}
+  @media (prefers-reduced-motion:reduce){.note.pop{animation:none}}
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:1.18rem;padding:20px;border-radius:18px;background:var(--accent);color:#3a2708;min-height:62px;letter-spacing:.01em;}
+  .btn:hover{background:var(--accent-deep);color:#fff}
+  .btn:active{transform:translateY(1px)}
+  .btn.plum{background:var(--plum);color:#fff}
+  .btn.small{font-size:1rem;min-height:52px;padding:14px}
+  .link{background:none;border:none;color:var(--plum);font-family:inherit;font-weight:600;font-size:1rem;cursor:pointer;padding:10px;text-decoration:underline;text-underline-offset:3px}
+  .link.tiny{font-size:.85rem;padding:4px}
+  :focus-visible{outline:3px solid var(--plum);outline-offset:3px;border-radius:6px}
+  .datafoot{margin-top:16px;border-top:1px solid var(--line);padding-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+  .listhead{margin:10px 0 18px}
+  .songs{display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+  .song{display:flex;align-items:center;gap:16px;text-align:left;width:100%;background:var(--app-2);border:1px solid var(--line);border-radius:18px;padding:18px 18px;cursor:pointer;font-family:inherit;color:var(--ink);}
+  .song:hover{border-color:var(--accent);background:var(--accent-wash)}
+  .song .disc{width:52px;height:52px;border-radius:14px;background:var(--plum);color:#fff;display:grid;place-items:center;font-size:1.5rem;flex:none}
+  .song .t{font-family:"Newsreader",serif;font-size:1.3rem;font-weight:500;line-height:1.15}
+  .song .d{color:var(--muted);font-size:.95rem}
+  .nowplay{display:flex;align-items:center;gap:14px;margin:6px 0 14px}
+  .nowplay .disc{width:58px;height:58px;border-radius:16px;background:var(--plum);color:#fff;display:grid;place-items:center;font-size:1.7rem;flex:none}
+  .nowplay .t{font-family:"Newsreader",serif;font-size:1.5rem;font-weight:500;line-height:1.1}
+  .nowplay .d{color:var(--muted);font-size:.95rem}
+  .rec{display:flex;align-items:center;gap:12px;color:var(--ink-soft);font-weight:600;margin-bottom:4px}
+  .recdot{width:14px;height:14px;border-radius:50%;background:#D45B5B;box-shadow:0 0 0 0 rgba(212,91,91,.5);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(212,91,91,.5)}70%{box-shadow:0 0 0 12px rgba(212,91,91,0)}100%{box-shadow:0 0 0 0 rgba(212,91,91,0)}}
+  .eq{display:inline-flex;align-items:flex-end;gap:4px;height:22px;margin-left:auto}
+  .eq i{width:5px;background:var(--accent);border-radius:3px;height:30%;animation:bar 1s ease-in-out infinite}
+  .eq i:nth-child(2){animation-delay:.15s}.eq i:nth-child(3){animation-delay:.3s}
+  .eq i:nth-child(4){animation-delay:.45s}.eq i:nth-child(5){animation-delay:.6s}
+  @keyframes bar{0%,100%{height:25%}50%{height:100%}}
+  @media (prefers-reduced-motion:reduce){.recdot,.eq i{animation:none}}
+  .audiohint{color:var(--muted);font-size:.85rem;margin:0 0 2px}
+  .lyrics{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;overflow:hidden;padding:12px 4px;}
+  .lyric{font-family:"Newsreader",serif;font-size:1.7rem;line-height:1.25;color:var(--muted);opacity:.45;transition:all .4s ease;}
+  .lyric.cur{color:var(--ink);opacity:1;}
+  .lyric.cur::first-letter{color:var(--accent-deep)}
+  .lyric.done{opacity:.3}
+  .progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:12px 0 16px}
+  .progress b{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .3s linear}
+  .result{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px}
+  .burst{font-size:3rem}
+  .result h1{font-size:2.2rem;margin:6px 0}
+  .result .msg{color:var(--ink-soft);max-width:30ch;font-size:1.05rem}
+  .pill{display:inline-flex;align-items:center;gap:10px;background:var(--accent-wash);color:var(--accent-deep);font-weight:700;padding:10px 18px;border-radius:99px;margin:16px 0 4px;font-size:1rem}
+  .datapanel{background:var(--app-2);border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0 10px;text-align:center;width:100%}
+  #dataStatus{margin-bottom:12px;color:var(--ink-soft);font-weight:600;line-height:1.4}
+  .cg-head{margin:4px 0 20px}
+  .card{background:var(--app-2);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:16px}
+  .status{display:flex;gap:14px;align-items:flex-start}
+  .status .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:1.4rem;flex:none}
+  .status.steady .ic{background:var(--sage-wash);color:var(--sage)}
+  .status.watch .ic{background:var(--amber-wash);color:var(--accent-deep)}
+  .status h3{margin:0 0 4px;font-family:"Newsreader",serif;font-weight:500;font-size:1.4rem}
+  .status p{margin:0;color:var(--ink-soft);font-size:1rem}
+  .chartwrap .cap{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;font-weight:600;margin-top:8px}
+  .disclaim{color:var(--muted);font-size:.86rem;text-align:center;line-height:1.5;margin:6px 10px 0}
+  .demotag{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:5;background:var(--plum);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:99px;opacity:.9}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <span class="demotag">DEMO</span>
+
+  <!-- HOME -->
+  <section class="screen active" id="home">
+    <div class="top"><span class="wordmark"><span class="dot"></span>Cadence</span><span class="spacer"></span><span class="daystamp">Sunday morning</span></div>
+    <h1 class="greet">Good morning,<br><em>Ruth</em>.</h1>
+    <p class="sub">Ready for today's song?</p>
+    <div class="streak">
+      <div class="count" id="streakNum">5<span>days in a row</span></div>
+      <p id="streakNote">Your longest run yet &mdash; keep it going.</p>
+      <div class="notes" id="notes"></div>
+    </div>
+    <button class="btn" onclick="go('songs')">&#127908; &nbsp;Sing today</button>
+    <button class="link" onclick="go('care')" style="margin-top:10px">Open family view</button>
+    <div class="datafoot"><span id="dataCount">No sessions saved yet</span><span class="spacer"></span><button class="link tiny" onclick="downloadCSV()">Download CSV</button><button class="link tiny" onclick="clearData()">Clear</button></div>
+  </section>
+
+  <!-- SONG PICK -->
+  <section class="screen" id="songs">
+    <div class="top"><button class="back" aria-label="Back" onclick="go('home')">&larr;</button><span class="wordmark"><span class="dot"></span>Cadence</span></div>
+    <div class="listhead"><h1 style="font-size:2rem">Pick a song</h1><p class="sub">Songs you might know well.</p></div>
+    <div class="songs" id="songlist"></div>
+  </section>
+
+  <!-- SING -->
+  <section class="screen" id="sing">
+    <div class="top"><button class="back" aria-label="Back" onclick="cancelSing();go('songs')">&larr;</button><span class="eyebrow">Now singing</span></div>
+    <div class="nowplay"><div class="disc">&#9834;</div><div><div class="t" id="singTitle">Amazing Grace</div><div class="d">Sing along &mdash; take your time</div></div></div>
+    <div class="rec"><span class="recdot"></span> Listening&hellip; <span id="timer">0:00</span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>
+    <div class="audiohint">&#128266; A soft guide melody plays &mdash; turn your volume up</div>
+    <div class="small" id="micLine" style="margin:0 0 6px">&#127908; Your voice is recorded this session &middot; headphones give cleaner audio</div>
+    <div class="lyrics" id="lyrics"></div>
+    <div class="progress"><b id="bar"></b></div>
+    <button class="btn plum" onclick="finishSing()">Finish song</button>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="result">
+    <div class="result">
+      <div class="burst">&#127775;</div>
+      <h1>Lovely singing, Ruth!</h1>
+      <p class="msg">That sounded warm and steady today. Your voice carried the whole song.</p>
+      <div class="pill">&#128293; 6 days in a row</div>
+      <div class="datapanel">
+        <div id="dataStatus">Saving&hellip;</div>
+        <button class="btn plum small" id="dlAudioBtn" onclick="downloadAudio()" style="display:none">&#11015; Download this recording</button>
+        <button class="link" onclick="downloadCSV()">Download all data (CSV)</button>
+      </div>
+    </div>
+    <button class="btn" onclick="go('home')">Back home</button>
+    <button class="link" onclick="go('care')" style="margin-top:8px">See how I'm doing over time</button>
+  </section>
+
+  <!-- CAREGIVER -->
+  <section class="screen" id="care">
+    <div class="top"><button class="back" aria-label="Back" onclick="go('home')">&larr;</button><span class="wordmark" style="color:var(--plum)"><span class="dot" style="background:var(--plum)"></span>Family view</span></div>
+    <div class="cg-head"><h1 style="font-size:1.9rem">How Ruth is doing</h1><p class="sub">Based on her daily singing this month.</p></div>
+    <div class="card">
+      <div class="status steady" id="statusBox"><div class="ic" id="statusIc">&#10003;</div><div><h3 id="statusTitle">Steady this month</h3><p id="statusText">Ruth's singing patterns have held consistent over the last 8 weeks. Nothing stands out &mdash; a good month.</p></div></div>
+    </div>
+    <div class="card chartwrap">
+      <svg viewBox="0 0 320 120" width="100%" height="120" preserveAspectRatio="none" aria-label="Weekly trend, mostly steady">
+        <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
+        <path id="area" d="" fill="url(#g)"/><path id="trend" d="" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="cap"><span>8 weeks ago</span><span>This week</span></div>
+    </div>
+    <button class="link" id="toggleBtn" onclick="toggleStatus()">&#9656; Show what an alert looks like</button>
+    <p class="disclaim">Cadence is a wellness tool that helps you notice changes early. It is not a medical diagnosis.</p>
+  </section>
+</div>
+
+<script>
+  var NF={'G3':196.00,'A3':220.00,'B3':246.94,'C4':261.63,'D4':293.66,'E4':329.63,'F4':349.23,'F#4':369.99,'G4':392.00,'A4':440.00,'A#4':466.16,'B4':493.88,'C5':523.25,'D5':587.33,'E5':659.25,'F5':698.46,'G5':783.99,'r':0};
+
+  var Audio2=(function(){
+    var ctx,master,lp,nodes=[],timeouts=[],endTimer=null;
+    function ensure(){
+      if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2300;master=ctx.createGain();master.gain.value=0.0001;lp.connect(master);master.connect(ctx.destination);}
+      if(ctx.state==='suspended')ctx.resume();return ctx;
+    }
+    function note(freq,start,dur){
+      if(!freq||freq<=0)return;
+      var o=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain();
+      o.type='triangle';o2.type='sine';o.frequency.value=freq;o2.frequency.value=freq;o2.detune.value=-6;
+      var a=0.03,r=0.2,peak=0.4;
+      g.gain.setValueAtTime(0.0001,start);g.gain.exponentialRampToValueAtTime(peak,start+a);
+      g.gain.setValueAtTime(peak,start+Math.max(a,dur*0.6));g.gain.exponentialRampToValueAtTime(0.0001,start+dur+r);
+      o.connect(g);o2.connect(g);g.connect(lp);o.start(start);o2.start(start);o.stop(start+dur+r+0.05);o2.stop(start+dur+r+0.05);
+      nodes.push(o,o2);
+    }
+    function play(phrases,bpm,onPhrase,onEnd){
+      ensure();stop();
+      master.gain.cancelScheduledValues(ctx.currentTime);master.gain.setValueAtTime(0.0001,ctx.currentTime);master.gain.exponentialRampToValueAtTime(0.18,ctx.currentTime+0.3);
+      var beat=60/bpm,t=ctx.currentTime+0.15,starts=[];
+      for(var i=0;i<phrases.length;i++){starts.push(t);var ph=phrases[i];for(var j=0;j<ph.length;j++){var d=ph[j][1]*beat;note(NF[ph[j][0]]||0,t,d*0.95);t+=d;}t+=beat*0.5;}
+      var total=t-ctx.currentTime;
+      starts.forEach(function(s,i){var ms=(s-ctx.currentTime)*1000;timeouts.push(setTimeout(function(){onPhrase&&onPhrase(i);},Math.max(0,ms)));});
+      endTimer=setTimeout(function(){onEnd&&onEnd();},total*1000+250);
+      return total;
+    }
+    function stop(){
+      timeouts.forEach(clearTimeout);timeouts=[];if(endTimer){clearTimeout(endTimer);endTimer=null;}
+      if(ctx&&master){try{master.gain.cancelScheduledValues(ctx.currentTime);master.gain.setTargetAtTime(0.0001,ctx.currentTime,0.05);}catch(e){}}
+      nodes.forEach(function(n){try{n.stop();}catch(e){}});nodes=[];
+    }
+    return {play:play,stop:stop,ensure:ensure};
+  })();
+
+  function go(id){
+    var s=document.querySelectorAll('.screen');for(var i=0;i<s.length;i++)s[i].classList.remove('active');
+    document.getElementById(id).classList.add('active');var ap=document.getElementById(id);if(ap)ap.scrollTop=0;
+    if(id==='sing')startSing();
+    if(id==='care')drawTrend();
+  }
+
+  var streak=5;try{var sv=localStorage.getItem('cadence_streak');if(sv)streak=parseInt(sv,10)||5;}catch(e){}
+  function paintStreak(n,animateLast){
+    document.getElementById('streakNum').innerHTML=n+'<span>days in a row</span>';
+    var wrap=document.getElementById('notes');wrap.innerHTML='';
+    for(var i=0;i<7;i++){var d=document.createElement('div');d.className='note'+(i<n?' on':'');d.textContent='\u266A';if(animateLast&&i===n-1)d.classList.add('pop');wrap.appendChild(d);}
+  }
+  paintStreak(Math.min(streak,7),false);
+
+  var SONGS=[
+    {t:'Amazing Grace',d:'A gentle classic',bpm:96,
+     lyrics:['Amazing grace, how sweet the sound','That saved a wretch like me','I once was lost, but now am found','Was blind, but now I see'],
+     melody:[[['D4',1],['G4',1.5],['B4',.5],['G4',1],['B4',1],['A4',1],['G4',2]],[['D4',1],['G4',1.5],['B4',.5],['D5',1],['B4',1],['D5',2],['B4',1]],[['D5',1],['B4',1.5],['G4',.5],['B4',1],['A4',1],['G4',2],['E4',1]],[['D4',1],['G4',1.5],['B4',.5],['G4',1],['A4',1],['G4',3]]]},
+    {t:'Danny Boy',d:'Soft and sweeping',bpm:84,
+     lyrics:['Oh Danny boy, the pipes are calling','From glen to glen, and down the mountain side','The summer\u2019s gone, and all the roses falling','It\u2019s you, it\u2019s you must go and I must bide'],
+     melody:[[['C4',1],['F4',1],['G4',1],['A4',1],['A#4',1],['A4',1],['F4',2]],[['A4',1],['C5',1],['D5',1],['C5',1],['A4',1],['F4',2],['C4',1]],[['F4',1],['A4',1],['C5',1],['D5',1.5],['C5',.5],['A#4',1],['A4',2]],[['G4',1],['F4',1],['G4',1],['A4',1],['F4',1],['C4',1],['F4',2]]]},
+    {t:'Home on the Range',d:'Warm and easy',bpm:108,
+     lyrics:['Oh give me a home where the buffalo roam','Where the deer and the antelope play','Where seldom is heard a discouraging word','And the skies are not cloudy all day'],
+     melody:[[['D4',1],['G4',2],['B4',1],['D5',2],['B4',1],['G4',2],['A4',1]],[['B4',1],['A4',2],['G4',1],['D4',2],['D4',1],['G4',2],['B4',1]],[['D5',1],['E5',2],['D5',1],['B4',2],['G4',1],['A4',2],['B4',1]],[['A4',1],['G4',2],['A4',1],['D4',2],['G4',3]]]},
+    {t:'Shenandoah',d:'A slow river song',bpm:76,
+     lyrics:['Oh Shenandoah, I long to hear you','Away, you rolling river','Oh Shenandoah, I long to hear you','Away, I\u2019m bound away'],
+     melody:[[['G3',1],['C4',2],['E4',1],['G4',2],['E4',1],['C4',2],['D4',1]],[['E4',1],['G4',2],['A4',1],['G4',2],['E4',1],['C4',3]],[['C4',1],['E4',1],['G4',1],['A4',1],['G4',1],['E4',1],['D4',2]],[['C4',1],['D4',1],['E4',1],['G4',1],['E4',1],['C4',1],['C4',2]]]}
+  ];
+  var sl=document.getElementById('songlist');
+  SONGS.forEach(function(s,i){var b=document.createElement('button');b.className='song';b.onclick=function(){chooseSong(i);};b.innerHTML='<span class="disc">\u266A</span><span><span class="t">'+s.t+'</span><br><span class="d">'+s.d+'</span></span>';sl.appendChild(b);});
+
+  // ---------- microphone recording ----------
+  var mediaStream=null,recorder=null,chunks=[],micOK=false,micTried=false,lastBlob=null;
+  function ensureMic(){
+    return new Promise(function(resolve){
+      if(mediaStream){resolve(true);return;}
+      if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){micOK=false;resolve(false);return;}
+      navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}).then(function(st){mediaStream=st;micOK=true;resolve(true);}).catch(function(){micOK=false;resolve(false);});
+    });
+  }
+  function startRecording(){
+    micTried=true;
+    ensureMic().then(function(ok){
+      var ml=document.getElementById('micLine');
+      if(!ok){ if(ml)ml.innerHTML='&#9888;&#65039; Microphone unavailable here &mdash; recording works once hosted on GitHub Pages'; return; }
+      if(ml)ml.innerHTML='&#127908; Recording your voice&hellip; &middot; headphones give cleaner audio';
+      try{
+        var mime='';
+        if(window.MediaRecorder){ if(MediaRecorder.isTypeSupported('audio/webm'))mime='audio/webm'; }
+        recorder=mime?new MediaRecorder(mediaStream,{mimeType:mime}):new MediaRecorder(mediaStream);
+        chunks=[];
+        recorder.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data);};
+        recorder.onstop=onRecStop;
+        recorder.start();
+      }catch(e){micOK=false;if(ml)ml.innerHTML='&#9888;&#65039; Could not start recording here &mdash; works once hosted';}
+    });
+  }
+
+  // ---------- sing ----------
+  var cur=0,t=0,curSong=0,progId=null,elapsedMs=0,totalMs=0,audioOn=true,finishing=false;
+  function chooseSong(i){curSong=i;go('sing');}
+  function setTimer(){var m=Math.floor(t/60),s=(t%60).toString();if(s.length<2)s='0'+s;document.getElementById('timer').textContent=m+':'+s;}
+  function setBar(p){document.getElementById('bar').style.width=p+'%';}
+  function startSing(){
+    var s=SONGS[curSong];finishing=false;lastBlob=null;
+    document.getElementById('singTitle').textContent=s.t;
+    document.getElementById('micLine').innerHTML='&#127908; Your voice is recorded this session &middot; headphones give cleaner audio';
+    var L=document.getElementById('lyrics');L.innerHTML='';
+    s.lyrics.forEach(function(line,idx){var p=document.createElement('div');p.className='lyric'+(idx===0?' cur':'');p.textContent=line;L.appendChild(p);});
+    var lines=L.children;cur=0;t=0;setTimer();setBar(0);audioOn=true;
+    startRecording();
+    var total;
+    try{
+      total=Audio2.play(s.melody,s.bpm||92,function(i){if(i>=lines.length)return;if(lines[cur]){lines[cur].classList.remove('cur');lines[cur].classList.add('done');}lines[i].classList.add('cur');cur=i;},function(){finishSing();});
+    }catch(e){audioOn=false;total=s.lyrics.length*3;}
+    if(!total||total<1){audioOn=false;total=s.lyrics.length*3;}
+    totalMs=total*1000;elapsedMs=0;clearInterval(progId);
+    progId=setInterval(function(){
+      elapsedMs+=100;t=Math.floor(elapsedMs/1000);setTimer();setBar(Math.min(100,elapsedMs/totalMs*100));
+      if(!audioOn){var idx=Math.min(lines.length-1,Math.floor(elapsedMs/(totalMs/lines.length)));if(idx!==cur){if(lines[cur]){lines[cur].classList.remove('cur');lines[cur].classList.add('done');}lines[idx].classList.add('cur');cur=idx;}if(elapsedMs>=totalMs){clearInterval(progId);finishSing();}}
+      else if(elapsedMs>=totalMs){clearInterval(progId);}
+    },100);
+  }
+  function stopAudioTimers(){clearInterval(progId);Audio2.stop();}
+  function cancelSing(){finishing=true;stopAudioTimers();if(recorder&&recorder.state&&recorder.state!=='inactive'){try{recorder.onstop=null;recorder.stop();}catch(e){}}chunks=[];}
+  function finishSing(){
+    if(finishing)return;finishing=true;
+    stopAudioTimers();
+    streak=6;try{localStorage.setItem('cadence_streak',streak);}catch(e){}
+    paintStreak(6,true);
+    go('result');
+    setResultStatus(micOK?'analyzing':'nomic');
+    if(recorder&&recorder.state&&recorder.state!=='inactive'){try{recorder.stop();}catch(e){handleBlob(null);}}
+    else{handleBlob(null);}
+  }
+  function onRecStop(){var type=(chunks[0]&&chunks[0].type)||'audio/webm';lastBlob=new Blob(chunks,{type:type});handleBlob(lastBlob);}
+  function handleBlob(blob){
+    if(!blob){setResultStatus(micOK?'error':'nomic');return;}
+    analyze(blob).then(function(feats){
+      var row={timestamp:new Date().toISOString(),song:SONGS[curSong].t};
+      for(var k in feats)row[k]=feats[k];
+      saveRow(row);setResultStatus('saved',row);
+    }).catch(function(){setResultStatus('error');});
+  }
+
+  // ---------- feature extraction ----------
+  function analyze(blob){
+    return blob.arrayBuffer().then(function(ab){
+      var AC=window.AudioContext||window.webkitAudioContext;var ac=new AC();
+      return new Promise(function(res,rej){ac.decodeAudioData(ab,function(buf){try{ac.close();}catch(e){}res(feat(buf));},function(e){try{ac.close();}catch(x){}rej(e);});});
+    });
+  }
+  function feat(buf){
+    var data=buf.getChannelData(0),sr=buf.sampleRate,win=Math.floor(sr*0.025);if(win<1)win=1;
+    var rms=[],i,j;
+    for(i=0;i+win<=data.length;i+=win){var s=0;for(j=0;j<win;j++){var v=data[i+j];s+=v*v;}rms.push(Math.sqrt(s/win));}
+    var peak=0;for(i=0;i<rms.length;i++)if(rms[i]>peak)peak=rms[i];if(peak<1e-6)peak=1e-6;
+    var thr=Math.max(peak*0.08,0.004),fd=win/sr,pauses=[],run=0,voiced=0,sum=0;
+    for(i=0;i<rms.length;i++){sum+=rms[i];if(rms[i]<thr){run++;}else{if(run*fd>=0.3)pauses.push(run*fd);run=0;voiced++;}}
+    if(run*fd>=0.3)pauses.push(run*fd);
+    var dur=buf.duration,ptot=0,plong=0;for(i=0;i<pauses.length;i++){ptot+=pauses[i];if(pauses[i]>plong)plong=pauses[i];}
+    var onsets=0;for(i=1;i<rms.length;i++){if(rms[i]>=thr&&rms[i-1]<thr)onsets++;}
+    function r2(x){return Math.round(x*100)/100;}function r3(x){return Math.round(x*1000)/1000;}
+    return {duration_s:r2(dur),voiced_s:r2(voiced*fd),pause_total_s:r2(ptot),pause_count:pauses.length,pause_mean_s:r2(pauses.length?ptot/pauses.length:0),pause_longest_s:r2(plong),pause_ratio:r3(dur?ptot/dur:0),onset_rate_hz:r2(dur?onsets/dur:0),mean_rms:r3(rms.length?sum/rms.length:0)};
+  }
+
+  // ---------- data store + downloads ----------
+  function loadRows(){try{return JSON.parse(localStorage.getItem('cadence_data')||'[]');}catch(e){return [];}}
+  function saveRow(row){var rows=loadRows();rows.push(row);try{localStorage.setItem('cadence_data',JSON.stringify(rows));}catch(e){}updateDataCount();}
+  function toCSV(rows){if(!rows.length)return '';var cols=Object.keys(rows[0]);function esc(v){v=(''+v).replace(/"/g,'""');return /[",\n]/.test(v)?'"'+v+'"':v;}var out=cols.join(',');for(var i=0;i<rows.length;i++){var r=rows[i];out+='\n'+cols.map(function(c){return esc(r[c]);}).join(',');}return out;}
+  function dl(blob,name){try{var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(url);a.remove();},1500);}catch(e){alert('Download not allowed in this preview. It works once the app is hosted (e.g. GitHub Pages).');}}
+  function downloadCSV(){var rows=loadRows();if(!rows.length){alert('No sessions saved yet. Sing a song first!');return;}dl(new Blob([toCSV(rows)],{type:'text/csv'}),'cadence_data.csv');}
+  function downloadAudio(){if(!lastBlob){alert('No recording from this session.');return;}var ext=(lastBlob.type.indexOf('webm')>=0)?'webm':(lastBlob.type.indexOf('mp4')>=0?'mp4':'audio');dl(lastBlob,'cadence_'+Date.now()+'.'+ext);}
+  function clearData(){if(confirm('Delete all saved sessions on this device?')){try{localStorage.removeItem('cadence_data');}catch(e){}updateDataCount();}}
+  function updateDataCount(){var n=loadRows().length;var el=document.getElementById('dataCount');if(el)el.textContent=n?(n+' session'+(n>1?'s':'')+' saved on this device'):'No sessions saved yet';}
+  function setResultStatus(state,row){
+    var el=document.getElementById('dataStatus'),ab=document.getElementById('dlAudioBtn');
+    if(state==='analyzing')el.textContent='Analyzing your singing\u2026';
+    else if(state==='saved'){var n=loadRows().length;el.innerHTML='Session saved \u2713 &middot; '+n+' total<br><span class="small">'+row.pause_count+' pauses &middot; '+row.voiced_s+'s sung &middot; '+row.duration_s+'s total</span>';}
+    else if(state==='nomic')el.innerHTML='Microphone not available in this preview.<br><span class="small">Recording + downloads work once the app is hosted on GitHub Pages.</span>';
+    else el.innerHTML='Could not analyze the recording this time.<br><span class="small">The raw file may still download below.</span>';
+    if(ab)ab.style.display=lastBlob?'':'none';
+  }
+
+  // ---------- caregiver ----------
+  function drawTrend(){var pts=[62,60,63,61,64,62,61,63],W=320,H=120,pad=8,max=Math.max.apply(null,pts),min=Math.min.apply(null,pts),rng=(max-min)||1,step=(W-pad*2)/(pts.length-1),d='';pts.forEach(function(v,i){var x=pad+i*step,y=H-pad-((v-min)/rng)*(H-pad*2);d+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';});document.getElementById('trend').setAttribute('d',d.trim());document.getElementById('area').setAttribute('d',d.trim()+'L'+(W-pad)+' '+(H-pad)+' L'+pad+' '+(H-pad)+' Z');}
+  var watching=false;
+  function toggleStatus(){watching=!watching;var box=document.getElementById('statusBox');if(watching){box.className='status watch';document.getElementById('statusIc').textContent='!';document.getElementById('statusTitle').textContent='A few changes to keep an eye on';document.getElementById('statusText').textContent='Ruth\u2019s timing has drifted a little over the past two weeks. It may be nothing \u2014 worth a gentle mention at her next check-up.';document.getElementById('toggleBtn').innerHTML='\u25BE Show a steady month';}else{box.className='status steady';document.getElementById('statusIc').innerHTML='\u2713';document.getElementById('statusTitle').textContent='Steady this month';document.getElementById('statusText').textContent='Ruth\u2019s singing patterns have held consistent over the last 8 weeks. Nothing stands out \u2014 a good month.';document.getElementById('toggleBtn').innerHTML='\u25B8 Show what an alert looks like';}}
+
+  updateDataCount();
+</script>
+</body>
+</html>
