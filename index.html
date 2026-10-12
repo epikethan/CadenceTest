@@ -173,16 +173,16 @@
 
   <!-- HOME -->
   <section class="screen active" id="home">
-    <div class="top"><span class="wordmark"><span class="dot"></span>Cadence</span><span class="spacer"></span><span class="daystamp">Sunday morning</span></div>
-    <h1 class="greet">Good morning,<br><em>Ruth</em>.</h1>
+    <div class="top"><span class="wordmark">Cadence</span><span class="spacer"></span><span class="daystamp">Sunday morning</span></div>
+    <h1 class="greet">Good morning,<br><em>Ethan</em>.</h1>
     <p class="sub">Ready for today's song?</p>
     <div class="streak">
       <div class="count" id="streakNum">5<span>days in a row</span></div>
-      <p id="streakNote">Your longest run yet &mdash; keep it going.</p>
+      <p id="streakNote">Your longest run yet. Keep it going!</p>
       <div class="notes" id="notes"></div>
     </div>
     <button class="btn" onclick="go('songs')"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg>Sing today</button>
-    <button class="link" onclick="go('care')" style="margin-top:10px">Open family view</button>
+    <button class="link" onclick="go('care')" style="margin-top:10px">See your progress</button>
     <div class="datafoot"><span id="dataCount">No sessions saved yet</span><span class="spacer"></span><button class="link tiny" onclick="downloadCSV()">Download CSV</button><button class="link tiny" onclick="clearData()">Clear</button></div>
   </section>
 
@@ -196,9 +196,9 @@
   <!-- SING -->
   <section class="screen" id="sing">
     <div class="top"><button class="back" aria-label="Back" onclick="cancelSing();go('songs')">&larr;</button><span class="eyebrow">Now singing</span></div>
-    <div class="nowplay"><div class="disc"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg></div><div><div class="t" id="singTitle">Amazing Grace</div><div class="d">Sing along &mdash; take your time</div></div></div>
+    <div class="nowplay"><div class="disc"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg></div><div><div class="t" id="singTitle">Amazing Grace</div><div class="d">Sing along and take your time</div></div></div>
     <div class="rec"><span class="recdot"></span> Listening&hellip; <span id="timer">0:00</span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>
-    <div class="audiohint"><svg class="i" aria-hidden="true"><use href="#i-volume"/></svg> A soft guide melody plays &mdash; turn your volume up</div>
+    <div class="audiohint"><svg class="i" aria-hidden="true"><use href="#i-volume"/></svg> A soft guide melody plays, so turn your volume up</div>
     <div class="small" id="micLine" style="margin:0 0 6px"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg> Your voice is recorded this session &middot; headphones give cleaner audio</div>
     <div class="lyrics" id="lyrics"></div>
     <div class="progress"><b id="bar"></b></div>
@@ -209,7 +209,7 @@
   <section class="screen" id="result">
     <div class="result">
       <div class="burst"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg></div>
-      <h1>Lovely singing, Ruth!</h1>
+      <h1>Lovely singing, Ethan!</h1>
       <p class="msg">That sounded warm and steady today. Your voice carried the whole song.</p>
       <div class="pill"><svg class="i" aria-hidden="true"><use href="#i-flame"/></svg> 6 days in a row</div>
       <div class="datapanel">
@@ -225,10 +225,10 @@
 
   <!-- CAREGIVER -->
   <section class="screen" id="care">
-    <div class="top"><button class="back" aria-label="Back" onclick="go('home')">&larr;</button><span class="wordmark" style="color:var(--plum)"><span class="dot" style="background:var(--plum)"></span>Family view</span></div>
-    <div class="cg-head"><h1 style="font-size:1.9rem">How Ruth is doing</h1><p class="sub">Based on her daily singing this month.</p></div>
+    <div class="top"><button class="back" aria-label="Back" onclick="go('home')">&larr;</button><span class="wordmark" style="color:var(--plum)"><span class="dot" style="background:var(--plum)"></span>Progress</span></div>
+    <div class="cg-head"><h1 style="font-size:1.9rem">How Ethan is doing</h1><p class="sub">Based on daily singing this month.</p></div>
     <div class="card">
-      <div class="status steady" id="statusBox"><div class="ic" id="statusIc"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></div><div><h3 id="statusTitle">Steady this month</h3><p id="statusText">Ruth's singing patterns have held consistent over the last 8 weeks. Nothing stands out &mdash; a good month.</p></div></div>
+      <div class="status steady" id="statusBox"><div class="ic" id="statusIc"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></div><div><h3 id="statusTitle">Steady this month</h3><p id="statusText">Ethan's singing patterns have held consistent over the last 8 weeks. Nothing stands out, so it's been a good month.</p></div></div>
     </div>
     <button class="link" id="toggleBtn" onclick="toggleStatus()">&#9656; Show what an alert looks like</button>
     <div class="card mcard" id="mcard">
@@ -241,7 +241,7 @@
       </div>
       <div class="mplot" id="mPlot"><svg id="mSvg" aria-hidden="true"></svg><div class="mtip" id="mTip" hidden></div></div>
       <div class="mempty" id="mEmpty" hidden><p>Sing at least 2 songs to see how this changes over time.</p><button class="link" onclick="useSample(true)">Preview with sample data</button></div>
-      <p class="small mnote" id="mSampleNote" hidden>Showing sample data &mdash; not real recordings. <button class="link tiny" onclick="useSample(false)">Back to my data</button></p>
+      <p class="small mnote" id="mSampleNote" hidden>Showing sample data, not real recordings. <button class="link tiny" onclick="useSample(false)">Back to my data</button></p>
       <details class="mtable"><summary>Show as a table</summary><div id="mTable"></div></details>
     </div>
     <p class="disclaim">Cadence is a wellness tool that helps you notice changes early. It is not a medical diagnosis.</p>
@@ -344,7 +344,7 @@
     micTried=true;
     ensureMic().then(function(ok){
       var ml=document.getElementById('micLine');
-      if(!ok){ if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-warning"/></svg> Microphone unavailable here &mdash; recording works once hosted on GitHub Pages'; return; }
+      if(!ok){ if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-warning"/></svg> Microphone unavailable here. Recording works once hosted on GitHub Pages.'; return; }
       if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-mic"/></svg> Recording your voice&hellip; &middot; headphones give cleaner audio';
       try{
         var mime='';
@@ -354,7 +354,7 @@
         recorder.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data);};
         recorder.onstop=onRecStop;
         recorder.start();
-      }catch(e){micOK=false;if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-warning"/></svg> Could not start recording here &mdash; works once hosted';}
+      }catch(e){micOK=false;if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-warning"/></svg> Could not start recording here. It works once hosted.';}
     });
   }
 
@@ -425,7 +425,7 @@
     var el=document.getElementById('cloudStatus');if(!el)return;
     if(state==='uploading')el.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg> Uploading to the cloud\u2026';
     else if(state==='uploaded')el.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg> Saved to the cloud \u2713';
-    else if(state==='cloudfail')el.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg> Cloud upload failed \u2014 your copy is still saved locally.<br><span class="small">Check the Supabase URL, key, and insert policies.</span>';
+    else if(state==='cloudfail')el.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg> Cloud upload failed, but your copy is still saved locally.<br><span class="small">Check the Supabase URL, key, and insert policies.</span>';
     else el.textContent='';
   }
 
@@ -531,7 +531,7 @@
     plot.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse')hideTip();});
     window.addEventListener('resize',function(){if(document.getElementById('care').classList.contains('active'))drawTrend();});})();
   var watching=false;
-  function toggleStatus(){watching=!watching;var box=document.getElementById('statusBox');if(watching){box.className='status watch';document.getElementById('statusIc').innerHTML='<svg class="i" aria-hidden="true"><use href="#i-alert"/></svg>';document.getElementById('statusTitle').textContent='A few changes to keep an eye on';document.getElementById('statusText').textContent='Ruth\u2019s timing has drifted a little over the past two weeks. It may be nothing \u2014 worth a gentle mention at her next check-up.';document.getElementById('toggleBtn').innerHTML='\u25BE Show a steady month';}else{box.className='status steady';document.getElementById('statusIc').innerHTML='<svg class="i" aria-hidden="true"><use href="#i-check"/></svg>';document.getElementById('statusTitle').textContent='Steady this month';document.getElementById('statusText').textContent='Ruth\u2019s singing patterns have held consistent over the last 8 weeks. Nothing stands out \u2014 a good month.';document.getElementById('toggleBtn').innerHTML='\u25B8 Show what an alert looks like';}}
+  function toggleStatus(){watching=!watching;var box=document.getElementById('statusBox');if(watching){box.className='status watch';document.getElementById('statusIc').innerHTML='<svg class="i" aria-hidden="true"><use href="#i-alert"/></svg>';document.getElementById('statusTitle').textContent='A few changes to keep an eye on';document.getElementById('statusText').textContent='Ethan\u2019s timing has drifted a little over the past two weeks. It may be nothing, but it\u2019s worth a gentle mention at the next check-up.';document.getElementById('toggleBtn').innerHTML='\u25BE Show a steady month';}else{box.className='status steady';document.getElementById('statusIc').innerHTML='<svg class="i" aria-hidden="true"><use href="#i-check"/></svg>';document.getElementById('statusTitle').textContent='Steady this month';document.getElementById('statusText').textContent='Ethan\u2019s singing patterns have held consistent over the last 8 weeks. Nothing stands out, so it\u2019s been a good month.';document.getElementById('toggleBtn').innerHTML='\u25B8 Show what an alert looks like';}}
 
   updateDataCount();
 </script>
