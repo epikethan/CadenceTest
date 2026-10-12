@@ -113,7 +113,6 @@
   .status.watch .ic{background:var(--amber-wash);color:var(--accent-deep)}
   .status h3{margin:0 0 4px;font-family:"Newsreader",serif;font-weight:500;font-size:1.4rem}
   .status p{margin:0;color:var(--ink-soft);font-size:1rem}
-  .chartwrap .cap{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;font-weight:600;margin-top:8px}
   .disclaim{color:var(--muted);font-size:.86rem;text-align:center;line-height:1.5;margin:6px 10px 0}
   .demotag{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:5;background:var(--plum);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:99px;opacity:.9}
   .tabbar{flex:none;display:flex;border-top:1px solid var(--line);background:var(--app);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));}
@@ -123,6 +122,41 @@
   .tab:hover{background:var(--app-2)}
   .tab.on{color:var(--plum);background:var(--accent-wash)}
   .tab:focus-visible{outline:2px solid var(--plum);outline-offset:2px}
+  .mhead h3{margin:0;font-family:"Newsreader",serif;font-weight:500;font-size:1.4rem}
+  .mhead p{margin:2px 0 14px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .chips button,.xseg button{font-family:inherit;font-weight:600;font-size:.92rem;cursor:pointer;border:1px solid var(--line);background:var(--app);color:var(--ink-soft);border-radius:99px;padding:9px 14px;min-height:44px}
+  .chips button[aria-checked="true"]{background:var(--plum);border-color:var(--plum);color:#fff}
+  :root[data-theme="dark"] .chips button[aria-checked="true"]{color:#271F2C}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chips button[aria-checked="true"]{color:#271F2C}}
+  .mnow{display:flex;flex-direction:column;margin-bottom:10px}
+  .mval{font-family:"Newsreader",serif;font-size:2.2rem;line-height:1.1;font-weight:600;color:var(--ink)}
+  .mdesc{color:var(--ink-soft);font-size:.92rem}
+  .xseg{display:inline-flex;gap:0;margin-bottom:8px}
+  .xseg button{border-radius:0;min-height:40px;padding:7px 14px;font-size:.85rem}
+  .xseg button:first-child{border-radius:99px 0 0 99px}
+  .xseg button:last-child{border-radius:0 99px 99px 0;border-left:none}
+  .xseg button[aria-checked="true"]{background:var(--accent-wash);color:var(--accent-deep);border-color:var(--accent)}
+  .chips button:focus-visible,.xseg button:focus-visible{outline:2px solid var(--plum);outline-offset:2px}
+  .mplot{position:relative;touch-action:pan-y}
+  .mplot svg{display:block;width:100%;height:190px;overflow:visible}
+  .mplot .grid{stroke:var(--line);stroke-width:1}
+  .mplot .axis{fill:var(--muted);font-size:11px;font-family:"Figtree",sans-serif}
+  .mplot .ln{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+  .mplot .pt{fill:var(--accent);stroke:var(--app-2);stroke-width:2}
+  .mplot .pt.on{fill:var(--accent-deep)}
+  .mplot .xh{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+  .mtip{position:absolute;top:0;pointer-events:none;background:var(--app);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:12px;padding:8px 11px;font-size:.82rem;line-height:1.35;color:var(--ink-soft);white-space:nowrap;transform:translateX(-50%)}
+  .mtip b{display:block;color:var(--ink);font-size:1rem}
+  .mempty{text-align:center;color:var(--ink-soft);font-size:.95rem;padding:18px 6px}
+  .mempty p{margin:0 0 4px}
+  .mnote{margin:6px 0 0}
+  .mtable{margin-top:10px;font-size:.9rem}
+  .mtable summary{cursor:pointer;color:var(--plum);font-weight:600;padding:8px 0}
+  .mtable table{width:100%;border-collapse:collapse}
+  .mtable th,.mtable td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line)}
+  .mtable th{color:var(--muted);font-weight:600;font-size:.8rem}
+  .mtable td:last-child,.mtable th:last-child{text-align:right;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -188,14 +222,20 @@
     <div class="card">
       <div class="status steady" id="statusBox"><div class="ic" id="statusIc">&#10003;</div><div><h3 id="statusTitle">Steady this month</h3><p id="statusText">Ruth's singing patterns have held consistent over the last 8 weeks. Nothing stands out &mdash; a good month.</p></div></div>
     </div>
-    <div class="card chartwrap">
-      <svg viewBox="0 0 320 120" width="100%" height="120" preserveAspectRatio="none" aria-label="Weekly trend, mostly steady">
-        <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
-        <path id="area" d="" fill="url(#g)"/><path id="trend" d="" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <div class="cap"><span>8 weeks ago</span><span>This week</span></div>
-    </div>
     <button class="link" id="toggleBtn" onclick="toggleStatus()">&#9656; Show what an alert looks like</button>
+    <div class="card mcard" id="mcard">
+      <div class="mhead"><h3>Session by session</h3><p class="small" id="mSource">From recordings saved on this device</p></div>
+      <div class="chips" role="radiogroup" aria-label="Measure" id="mChips"></div>
+      <div class="mnow"><span class="mval" id="mVal">&ndash;</span><span class="mdesc" id="mDesc"></span></div>
+      <div class="xseg" role="radiogroup" aria-label="Show by">
+        <button role="radio" aria-checked="true" data-x="n" onclick="setX('n')">By session</button>
+        <button role="radio" aria-checked="false" data-x="t" onclick="setX('t')">By date</button>
+      </div>
+      <div class="mplot" id="mPlot"><svg id="mSvg" aria-hidden="true"></svg><div class="mtip" id="mTip" hidden></div></div>
+      <div class="mempty" id="mEmpty" hidden><p>Sing at least 2 songs to see how this changes over time.</p><button class="link" onclick="useSample(true)">Preview with sample data</button></div>
+      <p class="small mnote" id="mSampleNote" hidden>Showing sample data &mdash; not real recordings. <button class="link tiny" onclick="useSample(false)">Back to my data</button></p>
+      <details class="mtable"><summary>Show as a table</summary><div id="mTable"></div></details>
+    </div>
     <p class="disclaim">Cadence is a wellness tool that helps you notice changes early. It is not a medical diagnosis.</p>
   </section>
 
@@ -421,7 +461,67 @@
   }
 
   // ---------- caregiver ----------
-  function drawTrend(){var pts=[62,60,63,61,64,62,61,63],W=320,H=120,pad=8,max=Math.max.apply(null,pts),min=Math.min.apply(null,pts),rng=(max-min)||1,step=(W-pad*2)/(pts.length-1),d='';pts.forEach(function(v,i){var x=pad+i*step,y=H-pad-((v-min)/rng)*(H-pad*2);d+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';});document.getElementById('trend').setAttribute('d',d.trim());document.getElementById('area').setAttribute('d',d.trim()+'L'+(W-pad)+' '+(H-pad)+' L'+pad+' '+(H-pad)+' Z');}
+  var METRICS=[
+    {k:'voiced_s',l:'Time sung',d:'Seconds of actual singing in the song',f:function(v){return Math.round(v)+'s';}},
+    {k:'pause_count',l:'Pauses',d:'Breaks of 0.3 seconds or longer',f:function(v){return Math.round(v)+'';}},
+    {k:'pause_mean_s',l:'Pause length',d:'Average length of a pause',f:function(v){return v.toFixed(1)+'s';}},
+    {k:'pause_ratio',l:'Pause share',d:'Share of the song spent paused',f:function(v){return Math.round(v*100)+'%';}},
+    {k:'onset_rate_hz',l:'Rhythm',d:'How often the voice starts up, per second',f:function(v){return v.toFixed(2)+'/s';}}
+  ];
+  var mSel=0,xMode='n',sampleOn=false,mPts=[];
+  function sampleRows(){var out=[],base=Date.now()-27*864e5,songs=['Amazing Grace','Danny Boy','Home on the Range'];for(var i=0;i<12;i++){var w=Math.sin(i*1.7)*0.5+Math.cos(i*0.9)*0.4,pc=Math.round(9+w*2+i*0.12),pm=0.62+w*0.06+i*0.008,dur=58+Math.round(w*3);out.push({timestamp:new Date(base+Math.round(i*2.3)*864e5+9*36e5).toISOString(),song:songs[i%3],duration_s:dur,voiced_s:+(dur-pc*pm).toFixed(1),pause_count:pc,pause_mean_s:+pm.toFixed(2),pause_ratio:+(pc*pm/dur).toFixed(3),onset_rate_hz:+(0.21+w*0.02-i*0.002).toFixed(2)});}return out;}
+  function chartRows(){var m=METRICS[mSel].k;return (sampleOn?sampleRows():loadRows()).filter(function(r){return typeof r[m]==='number'&&isFinite(r[m]);});}
+  function fmtDate(iso,long){var d=new Date(iso);return d.toLocaleDateString(undefined,long?{weekday:'short',month:'short',day:'numeric'}:{month:'short',day:'numeric'});}
+  function setMetric(i){mSel=i;drawTrend();}
+  function setX(x){xMode=x;drawTrend();}
+  function useSample(on){sampleOn=on;drawTrend();}
+  function esc(t){return (''+t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function drawTrend(){
+    var M=METRICS[mSel],rows=chartRows();
+    var chips=document.getElementById('mChips');
+    chips.innerHTML=METRICS.map(function(m,i){return '<button role="radio" aria-checked="'+(i===mSel)+'" onclick="setMetric('+i+')">'+m.l+'</button>';}).join('');
+    var xb=document.querySelectorAll('.xseg button');for(var b=0;b<xb.length;b++)xb[b].setAttribute('aria-checked',xb[b].getAttribute('data-x')===xMode);
+    document.getElementById('mSource').textContent=sampleOn?'Sample data for preview':'From recordings saved on this device';
+    document.getElementById('mSampleNote').hidden=!sampleOn;
+    document.getElementById('mDesc').textContent=M.d;
+    var enough=rows.length>=2;
+    document.getElementById('mEmpty').hidden=enough;
+    document.getElementById('mPlot').hidden=!enough;
+    document.getElementById('mVal').textContent=rows.length?M.f(rows[rows.length-1][M.k]):'–';
+    document.getElementById('mTable').innerHTML=rows.length?'<table><thead><tr><th>#</th><th>Date</th><th>Song</th><th>'+M.l+'</th></tr></thead><tbody>'+rows.map(function(r,i){return '<tr><td>'+(i+1)+'</td><td>'+fmtDate(r.timestamp)+'</td><td>'+esc(r.song||'')+'</td><td>'+M.f(r[M.k])+'</td></tr>';}).join('')+'</tbody></table>':'<p class="small">No sessions yet.</p>';
+    if(!enough)return;
+    var svg=document.getElementById('mSvg'),W=svg.clientWidth||300,H=190,pl=46,pr=12,pt=12,pb=26;
+    var vals=rows.map(function(r){return r[M.k];}),lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals);
+    if(hi-lo<1e-9){lo-=Math.abs(lo)*0.1||1;hi+=Math.abs(hi)*0.1||1;}
+    var padv=(hi-lo)*0.12;lo-=padv;hi+=padv;if(lo<0&&Math.min.apply(null,vals)>=0)lo=0;
+    var ts=rows.map(function(r){return new Date(r.timestamp).getTime();}),t0=Math.min.apply(null,ts),t1=Math.max.apply(null,ts);if(t1===t0)t1=t0+1;
+    function X(i){return xMode==='n'?pl+(W-pl-pr)*i/(rows.length-1):pl+(W-pl-pr)*(ts[i]-t0)/(t1-t0);}
+    function Y(v){return pt+(H-pt-pb)*(1-(v-lo)/(hi-lo));}
+    var g='';
+    [lo,(lo+hi)/2,hi].forEach(function(v){var y=Y(v).toFixed(1);g+='<line class="grid" x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y+'" y2="'+y+'"/><text class="axis" x="'+(pl-8)+'" y="'+y+'" text-anchor="end" dominant-baseline="middle">'+M.f(v)+'</text>';});
+    var xl=xMode==='n'?['Session 1','Session '+rows.length]:[fmtDate(rows[0].timestamp),fmtDate(rows[rows.length-1].timestamp)];
+    g+='<text class="axis" x="'+pl+'" y="'+(H-6)+'">'+xl[0]+'</text><text class="axis" x="'+(W-pr)+'" y="'+(H-6)+'" text-anchor="end">'+xl[1]+'</text>';
+    mPts=rows.map(function(r,i){return {x:X(i),y:Y(r[M.k]),r:r,i:i};});
+    g+='<path class="ln" d="'+mPts.map(function(p,i){return (i?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1);}).join(' ')+'"/>';
+    g+='<line class="xh" id="mXh" y1="'+pt+'" y2="'+(H-pb)+'" visibility="hidden"/>';
+    g+=mPts.map(function(p,i){return '<circle class="pt" data-i="'+i+'" cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="4.5"/>';}).join('');
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML=g;
+    hideTip();
+  }
+  function showTip(i){
+    var p=mPts[i],M=METRICS[mSel],tip=document.getElementById('mTip'),plot=document.getElementById('mPlot');if(!p)return;
+    tip.innerHTML='<b>'+M.f(p.r[M.k])+'</b>Session '+(i+1)+' &middot; '+fmtDate(p.r.timestamp,true)+'<br>'+esc(p.r.song||'');
+    tip.hidden=false;var w=tip.offsetWidth,PW=plot.clientWidth,x=Math.max(w/2,Math.min(PW-w/2,p.x));tip.style.left=x+'px';
+    tip.style.top=(p.y>80?p.y-tip.offsetHeight-14:p.y+14)+'px';
+    var xh=document.getElementById('mXh');xh.setAttribute('x1',p.x);xh.setAttribute('x2',p.x);xh.setAttribute('visibility','visible');
+    var c=document.querySelectorAll('#mSvg .pt');for(var k=0;k<c.length;k++){c[k].classList.toggle('on',k===i);c[k].setAttribute('r',k===i?6:4.5);}
+  }
+  function hideTip(){var t=document.getElementById('mTip');if(t)t.hidden=true;var xh=document.getElementById('mXh');if(xh)xh.setAttribute('visibility','hidden');var c=document.querySelectorAll('#mSvg .pt');for(var k=0;k<c.length;k++){c[k].classList.remove('on');c[k].setAttribute('r',4.5);}}
+  (function(){var plot=document.getElementById('mPlot');function near(e){var r=plot.getBoundingClientRect(),x=e.clientX-r.left,best=-1,bd=1e9;for(var i=0;i<mPts.length;i++){var d=Math.abs(mPts[i].x-x);if(d<bd){bd=d;best=i;}}return best;}
+    plot.addEventListener('pointermove',function(e){if(mPts.length)showTip(near(e));});
+    plot.addEventListener('pointerdown',function(e){if(mPts.length)showTip(near(e));});
+    plot.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse')hideTip();});
+    window.addEventListener('resize',function(){if(document.getElementById('care').classList.contains('active'))drawTrend();});})();
   var watching=false;
   function toggleStatus(){watching=!watching;var box=document.getElementById('statusBox');if(watching){box.className='status watch';document.getElementById('statusIc').textContent='!';document.getElementById('statusTitle').textContent='A few changes to keep an eye on';document.getElementById('statusText').textContent='Ruth\u2019s timing has drifted a little over the past two weeks. It may be nothing \u2014 worth a gentle mention at her next check-up.';document.getElementById('toggleBtn').innerHTML='\u25BE Show a steady month';}else{box.className='status steady';document.getElementById('statusIc').innerHTML='\u2713';document.getElementById('statusTitle').textContent='Steady this month';document.getElementById('statusText').textContent='Ruth\u2019s singing patterns have held consistent over the last 8 weeks. Nothing stands out \u2014 a good month.';document.getElementById('toggleBtn').innerHTML='\u25B8 Show what an alert looks like';}}
 
