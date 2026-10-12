@@ -157,9 +157,17 @@
   .mtable th,.mtable td{text-align:left;padding:6px 4px;border-bottom:1px solid var(--line)}
   .mtable th{color:var(--muted);font-weight:600;font-size:.8rem}
   .mtable td:last-child,.mtable th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+  .i{width:1.1em;height:1.1em;fill:currentColor;flex:none;vertical-align:-.2em}
+  .tab .ti .i{width:26px;height:26px;vertical-align:0}
+  .burst .i{width:64px;height:64px;color:var(--accent)}
+  .disc .i{width:28px;height:28px}
+  .note .i{width:16px;height:16px;vertical-align:0}
+  .status .ic .i{width:24px;height:24px;vertical-align:0}
+  .btn .i{width:24px;height:24px}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-home" viewBox="0 0 24 24"><path d="M12 2.5 1.5 11.5h3V21h6v-6h3v6h6v-9.5h3L19 8.5V4h-3v1.93z"/></symbol><symbol id="i-music" viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 20h18v2H3zM4.5 11h3.5v7.5H4.5zM10.25 5h3.5v13.5h-3.5zM16 13.5h3.5v5H16z"/></symbol><symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/></symbol><symbol id="i-volume" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05A4.48 4.48 0 0 0 16.5 12zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></symbol><symbol id="i-warning" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.64 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.5 4h3l-.5 10h-2zM10.5 16.5h3v3h-3z"/></symbol></svg>
 <div class="app" id="app">
   <span class="demotag">DEMO</span>
 
@@ -173,7 +181,7 @@
       <p id="streakNote">Your longest run yet &mdash; keep it going.</p>
       <div class="notes" id="notes"></div>
     </div>
-    <button class="btn" onclick="go('songs')">&#127908; &nbsp;Sing today</button>
+    <button class="btn" onclick="go('songs')"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg>Sing today</button>
     <button class="link" onclick="go('care')" style="margin-top:10px">Open family view</button>
     <div class="datafoot"><span id="dataCount">No sessions saved yet</span><span class="spacer"></span><button class="link tiny" onclick="downloadCSV()">Download CSV</button><button class="link tiny" onclick="clearData()">Clear</button></div>
   </section>
@@ -188,10 +196,10 @@
   <!-- SING -->
   <section class="screen" id="sing">
     <div class="top"><button class="back" aria-label="Back" onclick="cancelSing();go('songs')">&larr;</button><span class="eyebrow">Now singing</span></div>
-    <div class="nowplay"><div class="disc">&#9834;</div><div><div class="t" id="singTitle">Amazing Grace</div><div class="d">Sing along &mdash; take your time</div></div></div>
+    <div class="nowplay"><div class="disc"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg></div><div><div class="t" id="singTitle">Amazing Grace</div><div class="d">Sing along &mdash; take your time</div></div></div>
     <div class="rec"><span class="recdot"></span> Listening&hellip; <span id="timer">0:00</span><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>
-    <div class="audiohint">&#128266; A soft guide melody plays &mdash; turn your volume up</div>
-    <div class="small" id="micLine" style="margin:0 0 6px">&#127908; Your voice is recorded this session &middot; headphones give cleaner audio</div>
+    <div class="audiohint"><svg class="i" aria-hidden="true"><use href="#i-volume"/></svg> A soft guide melody plays &mdash; turn your volume up</div>
+    <div class="small" id="micLine" style="margin:0 0 6px"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg> Your voice is recorded this session &middot; headphones give cleaner audio</div>
     <div class="lyrics" id="lyrics"></div>
     <div class="progress"><b id="bar"></b></div>
     <button class="btn plum" onclick="finishSing()">Finish song</button>
@@ -200,14 +208,14 @@
   <!-- RESULT -->
   <section class="screen" id="result">
     <div class="result">
-      <div class="burst">&#127775;</div>
+      <div class="burst"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg></div>
       <h1>Lovely singing, Ruth!</h1>
       <p class="msg">That sounded warm and steady today. Your voice carried the whole song.</p>
-      <div class="pill">&#128293; 6 days in a row</div>
+      <div class="pill"><svg class="i" aria-hidden="true"><use href="#i-flame"/></svg> 6 days in a row</div>
       <div class="datapanel">
         <div id="dataStatus">Saving&hellip;</div>
         <div id="cloudStatus" class="small" style="margin:-4px 0 10px"></div>
-        <button class="btn plum small" id="dlAudioBtn" onclick="downloadAudio()" style="display:none">&#11015; Download this recording</button>
+        <button class="btn plum small" id="dlAudioBtn" onclick="downloadAudio()" style="display:none"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg> Download this recording</button>
         <button class="link" onclick="downloadCSV()">Download all data (CSV)</button>
       </div>
     </div>
@@ -220,7 +228,7 @@
     <div class="top"><button class="back" aria-label="Back" onclick="go('home')">&larr;</button><span class="wordmark" style="color:var(--plum)"><span class="dot" style="background:var(--plum)"></span>Family view</span></div>
     <div class="cg-head"><h1 style="font-size:1.9rem">How Ruth is doing</h1><p class="sub">Based on her daily singing this month.</p></div>
     <div class="card">
-      <div class="status steady" id="statusBox"><div class="ic" id="statusIc">&#10003;</div><div><h3 id="statusTitle">Steady this month</h3><p id="statusText">Ruth's singing patterns have held consistent over the last 8 weeks. Nothing stands out &mdash; a good month.</p></div></div>
+      <div class="status steady" id="statusBox"><div class="ic" id="statusIc"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></div><div><h3 id="statusTitle">Steady this month</h3><p id="statusText">Ruth's singing patterns have held consistent over the last 8 weeks. Nothing stands out &mdash; a good month.</p></div></div>
     </div>
     <button class="link" id="toggleBtn" onclick="toggleStatus()">&#9656; Show what an alert looks like</button>
     <div class="card mcard" id="mcard">
@@ -241,9 +249,9 @@
 
   <!-- TAB BAR -->
   <nav class="tabbar" id="tabbar" aria-label="Main">
-    <button class="tab on" data-tab="home" aria-current="page" onclick="go('home')"><span class="ti" aria-hidden="true">&#127968;</span>Home</button>
-    <button class="tab" data-tab="songs" onclick="go('songs')"><span class="ti" aria-hidden="true">&#127925;</span>Songs</button>
-    <button class="tab" data-tab="care" onclick="go('care')"><span class="ti" aria-hidden="true">&#128200;</span>Progress</button>
+    <button class="tab on" data-tab="home" aria-current="page" onclick="go('home')"><span class="ti" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg></span>Home</button>
+    <button class="tab" data-tab="songs" onclick="go('songs')"><span class="ti" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg></span>Songs</button>
+    <button class="tab" data-tab="care" onclick="go('care')"><span class="ti" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg></span>Progress</button>
   </nav>
 </div>
 
@@ -302,7 +310,7 @@
   function paintStreak(n,animateLast){
     document.getElementById('streakNum').innerHTML=n+'<span>days in a row</span>';
     var wrap=document.getElementById('notes');wrap.innerHTML='';
-    for(var i=0;i<7;i++){var d=document.createElement('div');d.className='note'+(i<n?' on':'');d.textContent='\u266A';if(animateLast&&i===n-1)d.classList.add('pop');wrap.appendChild(d);}
+    for(var i=0;i<7;i++){var d=document.createElement('div');d.className='note'+(i<n?' on':'');d.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-music"/></svg>';if(animateLast&&i===n-1)d.classList.add('pop');wrap.appendChild(d);}
   }
   paintStreak(Math.min(streak,7),false);
 
@@ -321,7 +329,7 @@
      melody:[[['G3',1],['C4',2],['E4',1],['G4',2],['E4',1],['C4',2],['D4',1]],[['E4',1],['G4',2],['A4',1],['G4',2],['E4',1],['C4',3]],[['C4',1],['E4',1],['G4',1],['A4',1],['G4',1],['E4',1],['D4',2]],[['C4',1],['D4',1],['E4',1],['G4',1],['E4',1],['C4',1],['C4',2]]]}
   ];
   var sl=document.getElementById('songlist');
-  SONGS.forEach(function(s,i){var b=document.createElement('button');b.className='song';b.onclick=function(){chooseSong(i);};b.innerHTML='<span class="disc">\u266A</span><span><span class="t">'+s.t+'</span><br><span class="d">'+s.d+'</span></span>';sl.appendChild(b);});
+  SONGS.forEach(function(s,i){var b=document.createElement('button');b.className='song';b.onclick=function(){chooseSong(i);};b.innerHTML='<span class="disc"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg></span><span><span class="t">'+s.t+'</span><br><span class="d">'+s.d+'</span></span>';sl.appendChild(b);});
 
   // ---------- microphone recording ----------
   var mediaStream=null,recorder=null,chunks=[],micOK=false,micTried=false,lastBlob=null;
@@ -336,8 +344,8 @@
     micTried=true;
     ensureMic().then(function(ok){
       var ml=document.getElementById('micLine');
-      if(!ok){ if(ml)ml.innerHTML='&#9888;&#65039; Microphone unavailable here &mdash; recording works once hosted on GitHub Pages'; return; }
-      if(ml)ml.innerHTML='&#127908; Recording your voice&hellip; &middot; headphones give cleaner audio';
+      if(!ok){ if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-warning"/></svg> Microphone unavailable here &mdash; recording works once hosted on GitHub Pages'; return; }
+      if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-mic"/></svg> Recording your voice&hellip; &middot; headphones give cleaner audio';
       try{
         var mime='';
         if(window.MediaRecorder){ if(MediaRecorder.isTypeSupported('audio/webm'))mime='audio/webm'; }
@@ -346,7 +354,7 @@
         recorder.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data);};
         recorder.onstop=onRecStop;
         recorder.start();
-      }catch(e){micOK=false;if(ml)ml.innerHTML='&#9888;&#65039; Could not start recording here &mdash; works once hosted';}
+      }catch(e){micOK=false;if(ml)ml.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-warning"/></svg> Could not start recording here &mdash; works once hosted';}
     });
   }
 
@@ -358,7 +366,7 @@
   function startSing(){
     var s=SONGS[curSong];finishing=false;lastBlob=null;
     document.getElementById('singTitle').textContent=s.t;
-    document.getElementById('micLine').innerHTML='&#127908; Your voice is recorded this session &middot; headphones give cleaner audio';
+    document.getElementById('micLine').innerHTML='<svg class="i" aria-hidden="true"><use href="#i-mic"/></svg> Your voice is recorded this session &middot; headphones give cleaner audio';
     var L=document.getElementById('lyrics');L.innerHTML='';
     s.lyrics.forEach(function(line,idx){var p=document.createElement('div');p.className='lyric'+(idx===0?' cur':'');p.textContent=line;L.appendChild(p);});
     var lines=L.children;cur=0;t=0;setTimer();setBar(0);audioOn=true;
@@ -415,9 +423,9 @@
   }
   function setCloudStatus(state){
     var el=document.getElementById('cloudStatus');if(!el)return;
-    if(state==='uploading')el.textContent='\u2601\uFE0F Uploading to the cloud\u2026';
-    else if(state==='uploaded')el.innerHTML='\u2601\uFE0F Saved to the cloud \u2713';
-    else if(state==='cloudfail')el.innerHTML='\u2601\uFE0F Cloud upload failed \u2014 your copy is still saved locally.<br><span class="small">Check the Supabase URL, key, and insert policies.</span>';
+    if(state==='uploading')el.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg> Uploading to the cloud\u2026';
+    else if(state==='uploaded')el.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg> Saved to the cloud \u2713';
+    else if(state==='cloudfail')el.innerHTML='<svg class="i" aria-hidden="true"><use href="#i-cloud"/></svg> Cloud upload failed \u2014 your copy is still saved locally.<br><span class="small">Check the Supabase URL, key, and insert policies.</span>';
     else el.textContent='';
   }
 
@@ -523,7 +531,7 @@
     plot.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse')hideTip();});
     window.addEventListener('resize',function(){if(document.getElementById('care').classList.contains('active'))drawTrend();});})();
   var watching=false;
-  function toggleStatus(){watching=!watching;var box=document.getElementById('statusBox');if(watching){box.className='status watch';document.getElementById('statusIc').textContent='!';document.getElementById('statusTitle').textContent='A few changes to keep an eye on';document.getElementById('statusText').textContent='Ruth\u2019s timing has drifted a little over the past two weeks. It may be nothing \u2014 worth a gentle mention at her next check-up.';document.getElementById('toggleBtn').innerHTML='\u25BE Show a steady month';}else{box.className='status steady';document.getElementById('statusIc').innerHTML='\u2713';document.getElementById('statusTitle').textContent='Steady this month';document.getElementById('statusText').textContent='Ruth\u2019s singing patterns have held consistent over the last 8 weeks. Nothing stands out \u2014 a good month.';document.getElementById('toggleBtn').innerHTML='\u25B8 Show what an alert looks like';}}
+  function toggleStatus(){watching=!watching;var box=document.getElementById('statusBox');if(watching){box.className='status watch';document.getElementById('statusIc').innerHTML='<svg class="i" aria-hidden="true"><use href="#i-alert"/></svg>';document.getElementById('statusTitle').textContent='A few changes to keep an eye on';document.getElementById('statusText').textContent='Ruth\u2019s timing has drifted a little over the past two weeks. It may be nothing \u2014 worth a gentle mention at her next check-up.';document.getElementById('toggleBtn').innerHTML='\u25BE Show a steady month';}else{box.className='status steady';document.getElementById('statusIc').innerHTML='<svg class="i" aria-hidden="true"><use href="#i-check"/></svg>';document.getElementById('statusTitle').textContent='Steady this month';document.getElementById('statusText').textContent='Ruth\u2019s singing patterns have held consistent over the last 8 weeks. Nothing stands out \u2014 a good month.';document.getElementById('toggleBtn').innerHTML='\u25B8 Show what an alert looks like';}}
 
   updateDataCount();
 </script>
